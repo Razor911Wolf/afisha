@@ -1,10 +1,8 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,12 +12,11 @@ import java.util.Map;
 
 public class AfishaPage extends BasePage {
 
-
     private final static Logger logger = LogManager.getLogger(AfishaPage.class);
 
     private String dayField = "Сегодня"; // для сверки выбранного дня с тем что в поле
     private Map<Integer, String> stationsMap = new HashMap<>(); // для сверки выбранной станции метро с тем что в поле (id, Курская)
-    private ArrayList<String> genreList = new ArrayList(); // для сверки выбранного жанра с тем что в поле
+    private final ArrayList<String> genreList = new ArrayList(); // для сверки выбранного жанра с тем что в поле
 
     public String getDays() {
         return dayField;
@@ -29,7 +26,7 @@ public class AfishaPage extends BasePage {
         return stationsMap;
     }
 
-    public ArrayList getGenreList(){
+    public ArrayList getGenreList() {
         return genreList;
     }
 
@@ -102,7 +99,5 @@ public class AfishaPage extends BasePage {
         focusWebElement(driver.findElement(submitLocator)).click();
         return this;
     }
-
-
 
 }

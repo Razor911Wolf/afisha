@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MoviePosterMoscowPage extends BasePage{
+public class MoviePosterMoscowPage extends BasePage {
 
-    private final WebDriver driver;
+    private WebDriver driver;
     private final static Logger logger = LogManager.getLogger(MoviePosterMoscowPage.class);
 
     public MoviePosterMoscowPage(WebDriver driver) {
@@ -57,7 +57,7 @@ public class MoviePosterMoscowPage extends BasePage{
         return checkPassed;
     }
 
-    private boolean checkGenreField(ArrayList<String>genreList) {
+    private boolean checkGenreField(ArrayList<String> genreList) {
         logger.debug("find genre and check selected genre");
         WebElement rootWebElement = driver.findElement(genreSelectedLocator);
         boolean checkPassed = true;

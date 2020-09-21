@@ -40,7 +40,6 @@ public class BasePage {
     // Локатор с выбранным жанром
     public static final By genreSelectedLocator = By.xpath("//div[@class='input-group input-group_fixed']//div[@class='input__tags-inner js-filter_selected_list']");
 
-
     protected static WebDriver driver;
     protected static WebDriverWait wait;
 
