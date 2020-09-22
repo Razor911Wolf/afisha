@@ -43,12 +43,13 @@ public class BasePage {
     protected static WebDriver driver;
     protected static WebDriverWait wait;
 
+    // прячет указанный элемент
     protected void hideWebElement(By xpathLocator) {
         WebElement element = driver.findElement(xpathLocator);
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.visibility='hidden'", element);
     }
 
-    // для клика по элементам, которые за пределами окна браузера (для маленьких экранов)
+    // фокусировка и ожидание кликабельности веб элемента. Для клика по элементам, которые за пределами окна браузера (для маленьких экранов)
     protected WebElement focusWebElement(WebElement webElement) {
         waitInvisibilityOfAds(); // ждёт пока уберётся реклама, если она есть
         hideWebElement(upButtonLocator); // Прячет кнопку "наверех" чтоб не мешалась
@@ -59,17 +60,19 @@ public class BasePage {
         return wait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
+    // ожидание пока пропадёт мешающая реклама
     static void waitInvisibilityOfAds() {
         new WebDriverWait(driver, 15, 300).until(ExpectedConditions.invisibilityOfElementLocated(ads1Locator));
         new WebDriverWait(driver, 15, 300).until(ExpectedConditions.invisibilityOfElementLocated(ads2Locator));
         new WebDriverWait(driver, 25, 300).until(ExpectedConditions.invisibilityOfElementLocated(ads3Locator));
     }
 
+    // проверка тайтла страницы
     public void checkPageTitle(String pageTitle) {
         try {
             new WebDriverWait(driver, 15, 300).until(ExpectedConditions.titleContains(pageTitle));
         } catch (Exception e) {
-            throw new IllegalStateException("This is not the " + pageTitle + " or page not loaded");
+            throw new IllegalStateException("This is not the " + pageTitle + " page or page not loaded");
         /*if (!"Кино Mail.ru — фильмы, сериалы и телешоу из самых популярных онлайн-кинотеатров".equals(driver.getTitle())) {
             throw new IllegalStateException("This is not the afisha.mail.ru page");
         }*/

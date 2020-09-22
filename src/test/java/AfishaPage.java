@@ -40,17 +40,20 @@ public class AfishaPage extends BasePage {
         this.wait = new WebDriverWait(driver, 3, 100);
     }
 
+    // открывает страницу
     public void openPage() {
         logger.info("open page: https://afisha.mail.ru/");
         driver.get("https://afisha.mail.ru/");
     }
 
+    // кликает "в кино"
     public AfishaPage clickToTheCinema() {
         logger.info("find and click to the cinema");
         focusWebElement(driver.findElement(cinemaLocator)).click();
         return this;
     }
 
+    // выставляет день
     public AfishaPage setDay(String dayField) {
         logger.info("find and click to days");
         focusWebElement(driver.findElement(daysLocator)).click();
@@ -64,6 +67,7 @@ public class AfishaPage extends BasePage {
         return this;
     }
 
+    // выставляет станцию метро + id станции
     public AfishaPage setMetroStation(String metroName, int stationId) {
         // ждать пока браузер уберёт предыдущий список станций, если такой есть (когда вводится несклько станций, браузер тормозит)
         wait.until(ExpectedConditions.invisibilityOfElementLocated(metroStationPickerListLocator));
@@ -78,6 +82,7 @@ public class AfishaPage extends BasePage {
         return this;
     }
 
+    // выставляет жанр
     public AfishaPage setGenre(String genreField) {
         logger.info("find genres and click");
         focusWebElement(driver.findElement(genresLocator)).click();
@@ -91,6 +96,7 @@ public class AfishaPage extends BasePage {
         return this;
     }
 
+    // кликает "2d сеанс"
     public AfishaPage clickCinema2d() {
         logger.info("find cinema2d and click");
         focusWebElement(driver.findElement(cinema2dLocator)).click();
@@ -98,6 +104,7 @@ public class AfishaPage extends BasePage {
         return this;
     }
 
+    // кликает "подобрать"
     public AfishaPage clickPickUpFilms() {
         logger.info("find pick up button and click");
         focusWebElement(driver.findElement(submitLocator)).click();

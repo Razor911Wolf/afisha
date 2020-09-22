@@ -3,6 +3,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -39,15 +40,37 @@ public class Afisha {
         afishaPage.clickCinema2d();
         afishaPage.setDay("Завтра");
         afishaPage.setMetroStation("Курская", 68); //курская кольцевая id=68
-        afishaPage.setMetroStation("Первомайская", 107); //первомайская id=107
         afishaPage.setGenre("драма");
         afishaPage.setGenre("комедия");
-        afishaPage.setGenre("аниме");
         afishaPage.clickPickUpFilms();
         moviePosterMoscowPage = new MoviePosterMoscowPage(driver);
         moviePosterMoscowPage.checkPageTitle("Киноафиша Москвы");
         moviePosterMoscowPage.getReport(afishaPage);
         logger.info("end: test_01");
+    }
+
+    @Test
+    @Ignore
+    public void test_02() {
+        logger.info("start: test_02");
+        afishaPage = new AfishaPage(driver);
+        afishaPage.openPage();
+        afishaPage.checkPageTitle("Кино Mail.ru — фильмы, сериалы и телешоу из самых популярных онлайн-кинотеатров");
+        afishaPage.clickToTheCinema();
+        afishaPage.clickCinema2d();
+        afishaPage.setDay("03.10.2020");
+        afishaPage.setMetroStation("Третьяковская", 287); //третьяковская id=287
+        afishaPage.setMetroStation("Курская", 68); //курская кольцевая id=68
+        afishaPage.setMetroStation("Первомайская", 107); //первомайская id=107
+        afishaPage.setGenre("фэнтези");
+        afishaPage.setGenre("боевик");
+        afishaPage.setGenre("фантастика");
+        afishaPage.setGenre("аниме");
+        afishaPage.clickPickUpFilms();
+        moviePosterMoscowPage = new MoviePosterMoscowPage(driver);
+        moviePosterMoscowPage.checkPageTitle("Киноафиша Москвы");
+        moviePosterMoscowPage.getReport(afishaPage);
+        logger.info("end: test_02");
     }
 }
 
