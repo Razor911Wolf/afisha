@@ -38,20 +38,20 @@ public class AfishaPage extends BasePage {
     }
 
     public void openPage() {
-        logger.debug("open page: https://afisha.mail.ru/");
+        logger.info("open page: https://afisha.mail.ru/");
         driver.get("https://afisha.mail.ru/");
     }
 
     public AfishaPage clickToTheCinema() {
-        logger.debug("find and click to the cinema");
+        logger.info("find and click to the cinema");
         focusWebElement(driver.findElement(cinemaLocator)).click();
         return this;
     }
 
     public AfishaPage setDay(String dayField) {
-        logger.debug("find and click to days");
+        logger.info("find and click to days");
         focusWebElement(driver.findElement(daysLocator)).click();
-        logger.debug("find and click on the day with name: " + dayField);
+        logger.info("find and click on the day with name: " + dayField);
         //корневой элемент выпадайти
         WebElement rootWebElement = driver.findElement(datePickerListLocator);
         //поиск элемента с текстом
@@ -64,9 +64,9 @@ public class AfishaPage extends BasePage {
     public AfishaPage setMetroStation(String metroName, int stationId) {
         // ждать пока браузер уберёт предыдущий список станций, если такой есть (когда вводится несклько станций, браузер тормозит)
         wait.until(ExpectedConditions.invisibilityOfElementLocated(metroStationPickerListLocator));
-        logger.debug("find metro locator input and type: " + metroName);
+        logger.info("find metro locator input and type: " + metroName);
         driver.findElement(metroLocator).sendKeys(metroName);
-        logger.debug("find metro list and click on station with id: " + stationId);
+        logger.info("find metro list and click on station with id: " + stationId);
         //корневой элемент выпадайти
         WebElement rootWebElement = wait.until(ExpectedConditions.visibilityOfElementLocated(metroStationPickerListLocator));
         //поиск элемента с data_id = stationId
@@ -76,9 +76,9 @@ public class AfishaPage extends BasePage {
     }
 
     public AfishaPage setGenre(String genreField) {
-        logger.debug("find genres and click");
+        logger.info("find genres and click");
         focusWebElement(driver.findElement(genresLocator)).click();
-        logger.debug("find and click on the genre with name: " + genreField);
+        logger.info("find and click on the genre with name: " + genreField);
         //корневой элемент выпадайти
         WebElement rootWebElement = driver.findElement(genresPickerListLocator);
         //поиск элемента с текстом среди потомков
@@ -89,13 +89,13 @@ public class AfishaPage extends BasePage {
     }
 
     public AfishaPage clickCinema2d() {
-        logger.debug("find cinema2d and click");
+        logger.info("find cinema2d and click");
         focusWebElement(driver.findElement(cinema2dLocator)).click();
         return this;
     }
 
     public AfishaPage clickPickUpFilms() {
-        logger.debug("find pick up button and click");
+        logger.info("find pick up button and click");
         focusWebElement(driver.findElement(submitLocator)).click();
         return this;
     }

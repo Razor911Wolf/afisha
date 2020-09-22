@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Afisha {
@@ -12,12 +13,12 @@ public class Afisha {
     private static Logger logger = LogManager.getLogger(Afisha.class);
 
     private WebDriver driver;
-    private AfishaPage afishaPage;
+    //private AfishaPage afishaPage;
     private MoviePosterMoscowPage moviePosterMoscowPage;
 
     @Before
-    public void setUp() {
-        driver = new ChromeDriver();
+    public void setUp(WebDriver driver) {
+        this.driver = driver;
         //driver = new FirefoxDriver();
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         //driver.manage().window().maximize();
@@ -26,13 +27,13 @@ public class Afisha {
 
     @After
     public void closed() {
-        driver.close();
+        this.driver.close();
     }
 
     @Test
-    public void test_01() {
+    public void test_01(AfishaPage afishaPage) {
         logger.info("start: test_01");
-        afishaPage = new AfishaPage(driver);
+        //afishaPage = new AfishaPage(driver);
         afishaPage.openPage();
         afishaPage.checkPageTitle("Кино Mail.ru — фильмы, сериалы и телешоу из самых популярных онлайн-кинотеатров");
         afishaPage.clickToTheCinema();

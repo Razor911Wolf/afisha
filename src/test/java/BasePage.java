@@ -43,10 +43,6 @@ public class BasePage {
     protected static WebDriver driver;
     protected static WebDriverWait wait;
 
-    BasePage() {
-
-    }
-
     protected void hideWebElement(By xpathLocator) {
         WebElement element = driver.findElement(xpathLocator);
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.visibility='hidden'", element);

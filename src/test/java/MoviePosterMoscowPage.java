@@ -23,18 +23,18 @@ public class MoviePosterMoscowPage extends BasePage {
 
     private boolean checkDayField(String dayField) {
 
-        logger.debug("find days and check selected day with: " + dayField);
+        logger.info("find days and check selected day with: " + dayField);
         if (dayField.equals(driver.findElement(daysLocator).getText())) {
-            logger.debug("days are equal");
+            logger.info("days are equal");
             return true;
         } else {
-            logger.error("days are not equals");
+            logger.info("days are not equals");
             return false;
         }
     }
 
     private boolean checkMetroStationField(Map<Integer, String> stationsMap) {
-        logger.debug("find metro station and check selected station");
+        logger.info("find metro station and check selected station");
         WebElement rootWebElement = driver.findElement(metroStationSelectedLocator);
         boolean checkPassed = true;
 
@@ -44,11 +44,11 @@ public class MoviePosterMoscowPage extends BasePage {
             checkPassed = false;
         }
         for (Map.Entry<Integer, String> entry : stationsMap.entrySet()) {
-            logger.debug("check station id: " + entry.getKey() + " name: " + entry.getValue());
+            logger.info("check station id: " + entry.getKey() + " name: " + entry.getValue());
             try {
                 rootWebElement.findElement(By.xpath("./descendant::div[@data-id='" + entry.getKey() + "']"));
                 rootWebElement.findElement(By.xpath("./descendant::span[text()='" + entry.getValue() + "']"));
-                logger.debug("stations are equal");
+                logger.info("stations are equal");
             } catch (Exception e) {
                 logger.error("selected metro stations is not equals\nstation id \"" + entry.getKey() + "\" with name \"" + entry.getValue() + "\" not found");
                 checkPassed = false;
@@ -58,7 +58,7 @@ public class MoviePosterMoscowPage extends BasePage {
     }
 
     private boolean checkGenreField(ArrayList<String> genreList) {
-        logger.debug("find genre and check selected genre");
+        logger.info("find genre and check selected genre");
         WebElement rootWebElement = driver.findElement(genreSelectedLocator);
         boolean checkPassed = true;
         List<WebElement> listWebEl = rootWebElement.findElements(By.xpath("./div[@class='tag tag_close js-filter_selected_item margin_left_10']"));
@@ -67,10 +67,10 @@ public class MoviePosterMoscowPage extends BasePage {
             checkPassed = false;
         }
         for (String valueGenre : genreList) {
-            logger.debug("check genre: " + valueGenre);
+            logger.info("check genre: " + valueGenre);
             try {
                 rootWebElement.findElement(By.xpath("./descendant::span[text()='" + valueGenre + "']"));
-                logger.debug("genres are equal");
+                logger.info("genres are equal");
             } catch (Exception e) {
                 logger.error("selected genre is not equal\ngenre \"" + valueGenre + "\" not found");
                 checkPassed = false;
@@ -83,7 +83,7 @@ public class MoviePosterMoscowPage extends BasePage {
         logger.info("get report: MoviePosterMoscowPage");
         if (checkDayField(afishaPage.getDays()) && checkMetroStationField(afishaPage.getStationMap()) && checkGenreField(afishaPage.getGenreList())) {
 
-            logger.debug("all selected fields are equal");
+            logger.info("all selected fields are equal");
             logger.info("the functionality meets the requirements");
         } else {
             logger.error("the functionality does not meet the requirements");
