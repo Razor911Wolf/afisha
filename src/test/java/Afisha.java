@@ -39,7 +39,7 @@ public class Afisha {
         afishaPage.clickCinema2d();
         afishaPage.setDay("Завтра");
         afishaPage.setMetroStation("Курская", 68); //курская кольцевая id=68
-        afishaPage.setMetroStation("Первомайская", 107); //курская кольцевая id=68
+        afishaPage.setMetroStation("Первомайская", 107); //первомайская id=107
         afishaPage.setGenre("драма");
         afishaPage.setGenre("комедия");
         afishaPage.setGenre("аниме");
@@ -48,7 +48,6 @@ public class Afisha {
         moviePosterMoscowPage.checkPageTitle("Киноафиша Москвы");
         moviePosterMoscowPage.getReport(afishaPage);
         logger.info("end: test_01");
-        System.out.println();
     }
 }
 

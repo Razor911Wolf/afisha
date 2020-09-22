@@ -79,14 +79,25 @@ public class MoviePosterMoscowPage extends BasePage {
         return checkPassed;
     }
 
+    private boolean CheckCinema2d(boolean cinema2d) {
+     logger.info("find cinema2d and check");
+        WebElement rootWebElement = driver.findElement(cinema2dLocator);
+        if (cinema2d == rootWebElement.findElement(By.xpath("./descendant::input[@name='is_2d']")).isSelected()) {
+            logger.info("cinema2d selected");
+            return true;
+        } else {
+            logger.info("cinema2d not selected");
+            return false;
+        }
+    }
+
     public MoviePosterMoscowPage getReport(AfishaPage afishaPage) {
         logger.info("get report: MoviePosterMoscowPage");
-        if (checkDayField(afishaPage.getDays()) && checkMetroStationField(afishaPage.getStationMap()) && checkGenreField(afishaPage.getGenreList())) {
-
+        if (checkDayField(afishaPage.getDays()) && checkMetroStationField(afishaPage.getStationMap()) && checkGenreField(afishaPage.getGenreList()) && CheckCinema2d(afishaPage.getCinema2dStatus())) {
             logger.info("all selected fields are equal");
-            logger.info("the functionality meets the requirements");
+            logger.info("The functionality meets the requirements");
         } else {
-            logger.error("the functionality does not meet the requirements");
+            logger.error("the selected fields are not equal");
             throw new IllegalStateException("The functionality does not meet the requirements");
         }
         return this;

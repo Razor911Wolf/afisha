@@ -17,6 +17,7 @@ public class AfishaPage extends BasePage {
     private String dayField = "Сегодня"; // для сверки выбранного дня с тем что в поле
     private Map<Integer, String> stationsMap = new HashMap<>(); // для сверки выбранной станции метро с тем что в поле (id, Курская)
     private final ArrayList<String> genreList = new ArrayList(); // для сверки выбранного жанра с тем что в поле
+    private boolean cinema2d = false;
 
     public String getDays() {
         return dayField;
@@ -29,6 +30,8 @@ public class AfishaPage extends BasePage {
     public ArrayList getGenreList() {
         return genreList;
     }
+
+    public boolean getCinema2dStatus() { return cinema2d; }
 
     public AfishaPage(WebDriver driver) {
         logger.info("test: AfishaPage");
@@ -84,13 +87,14 @@ public class AfishaPage extends BasePage {
         //поиск элемента с текстом среди потомков
         WebElement findEl = rootWebElement.findElement(By.xpath("./descendant::span[text()='" + genreField + "']")); //descendant:: — Возвращает всех множество потомков
         focusWebElement(findEl.findElement(By.xpath("./../.."))).click(); // ./../.. - ищет ближайшего кликабельного предка
-        genreList.add(genreField);
+        genreList.add(genreField); // для дальнейших проверок
         return this;
     }
 
     public AfishaPage clickCinema2d() {
         logger.info("find cinema2d and click");
         focusWebElement(driver.findElement(cinema2dLocator)).click();
+        cinema2d = true; // для дальнейших проверок
         return this;
     }
 
