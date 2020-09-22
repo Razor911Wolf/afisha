@@ -1,18 +1,14 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.sql.Driver;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
 
 public class Main {
 
-
     public static void main(String[] args) {
-        WebDriver driver = new ChromeDriver();
-        Afisha afishaTest = new Afisha();
-        AfishaPage afishaPage = new AfishaPage(driver);
-        afishaTest.setUp(driver);
-        afishaTest.test_01(afishaPage);
-        afishaTest.closed();
+        JUnitCore junit = new JUnitCore();
+        Result result = junit.run(Afisha.class);
+        if (result.getFailures().size() != 0) {
+            System.out.println(result.getFailures());
+        }
     }
 
 }
