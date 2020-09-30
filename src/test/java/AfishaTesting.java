@@ -1,59 +1,82 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public class Afisha {
+public class AfishaTesting extends WebDiverSettings {
 
-    private static Logger logger = LogManager.getLogger(Afisha.class);
+    private static Logger logger = LogManager.getLogger(AfishaTesting.class);
 
-    private WebDriver driver;
     private AfishaPage afishaPage;
     private MoviePosterMoscowPage moviePosterMoscowPage;
-
-    @Before
-    public void setUp() {
-        driver = new ChromeDriver();
-        //driver = new FirefoxDriver();
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-        //driver.manage().window().maximize();
-        //driver.manage().window().setSize(new Dimension(800, 600));
-    }
-
-    @After
-    public void closed() {
-        driver.close();
-    }
 
     @Test
     public void test_01() {
         logger.info("start: test_01");
-        afishaPage = new AfishaPage(driver);
+
+        // initialize a AfishaPage
+        afishaPage = PageFactory.initElements(driver, AfishaPage.class);
+        logger.info("AfishaPage initialized");
+
+        // open Afisha page
         afishaPage.openPage();
+        logger.info("AfishaPage opened");
+
+        // check page title
         afishaPage.checkPageTitle("Кино Mail.ru — фильмы, сериалы и телешоу из самых популярных онлайн-кинотеатров");
+        logger.info("Page title checked");
+
+        // click go to the cinema
         afishaPage.clickToTheCinema();
+        logger.info("go to the cinema clicked");
+
+        // click on checkbox "only2d"
         afishaPage.clickCinema2d();
+        logger.info("checkbox \"only2d\" clicked");
+
+        // set day
         afishaPage.setDay("Завтра");
-        afishaPage.setMetroStation("Курская", 68); //курская кольцевая id=68
+        logger.info("day chosen: " + afishaPage.getDay());
+
+        // set metro station
+        afishaPage.setMetroStation("Курская", 68);
+        logger.info("metro station inputed: " + afishaPage.getStationMap()); //курская кольцевая id=68
+
+        // set genre
         afishaPage.setGenre("драма");
+        logger.info("ganre inputed: " + afishaPage.getGenreList());
+
+        // set genre
         afishaPage.setGenre("комедия");
+        logger.info("ganre inputed: " + afishaPage.getGenreList());
+
+        // click pick up films
         afishaPage.clickPickUpFilms();
-        moviePosterMoscowPage = new MoviePosterMoscowPage(driver);
+        logger.info("pick up films clicked");
+
+        // initialize a moviePosterMoscowPage
+        moviePosterMoscowPage = PageFactory.initElements(driver, MoviePosterMoscowPage.class);
+        logger.info("MoviePosterMoscowPage initialized");
+
+        // check page title
         moviePosterMoscowPage.checkPageTitle("Киноафиша Москвы");
-        moviePosterMoscowPage.getReport(afishaPage);
+        logger.info("Page title checked");
+
+        // get report
+        Assert.assertTrue(moviePosterMoscowPage.getReport(afishaPage));
+        logger.info("The functionality meets the requirements");
+
         logger.info("end: test_01");
     }
 
-    @Test
     @Ignore
+    @Test
     public void test_02() {
         logger.info("start: test_02");
-        afishaPage = new AfishaPage(driver);
+        afishaPage = PageFactory.initElements(driver, AfishaPage.class);
         afishaPage.openPage();
         afishaPage.checkPageTitle("Кино Mail.ru — фильмы, сериалы и телешоу из самых популярных онлайн-кинотеатров");
         afishaPage.clickToTheCinema();
@@ -67,9 +90,10 @@ public class Afisha {
         afishaPage.setGenre("фантастика");
         afishaPage.setGenre("аниме");
         afishaPage.clickPickUpFilms();
-        moviePosterMoscowPage = new MoviePosterMoscowPage(driver);
+        moviePosterMoscowPage = PageFactory.initElements(driver, MoviePosterMoscowPage.class);
         moviePosterMoscowPage.checkPageTitle("Киноафиша Москвы");
-        moviePosterMoscowPage.getReport(afishaPage);
+        Assert.assertTrue(moviePosterMoscowPage.getReport(afishaPage));
+        logger.info("The functionality meets the requirements");
         logger.info("end: test_02");
     }
 }

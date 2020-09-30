@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args) {
         JUnitCore junit = new JUnitCore();
-        Result result = junit.run(Afisha.class);
+        Result result = junit.run(AfishaTesting.class);
         if (result.getFailures().size() != 0) {
             System.out.println(result.getFailures());
         }

@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+// Класс для проверки Кино Mail.ru
 public class AfishaPage extends BasePage {
 
-    private final static Logger logger = LogManager.getLogger(AfishaPage.class);
+    private final static Logger logger = LogManager.getLogger(AfishaPage.class.getName());
 
     private String dayField = "Сегодня"; // для сверки выбранного дня с тем что в поле
-    private Map<Integer, String> stationsMap = new HashMap<>(); // для сверки выбранной станции метро с тем что в поле (id, Курская)
+    private final Map<Integer, String> stationsMap = new HashMap<>(); // для сверки выбранной станции метро с тем что в поле (id, Курская)
     private final ArrayList<String> genreList = new ArrayList(); // для сверки выбранного жанра с тем что в поле
     private boolean cinema2d = false;
 
-    public String getDays() {
+    public String getDay() {
         return dayField;
     }
 
@@ -31,11 +32,11 @@ public class AfishaPage extends BasePage {
         return genreList;
     }
 
-    public boolean getCinema2dStatus() { return cinema2d; }
+    public boolean getCinema2dStatus() {
+        return cinema2d;
+    }
 
     public AfishaPage(WebDriver driver) {
-        logger.info("test: AfishaPage");
-        logger.info("start test");
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 3, 100);
     }
@@ -47,68 +48,83 @@ public class AfishaPage extends BasePage {
     }
 
     // кликает "в кино"
-    public AfishaPage clickToTheCinema() {
+    public void clickToTheCinema() {
         logger.info("find and click to the cinema");
-        focusWebElement(driver.findElement(cinemaLocator)).click();
-        return this;
+        try {
+            focusWebElement(cinemaLocator).click();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     // выставляет день
-    public AfishaPage setDay(String dayField) {
+    public void setDay(String dayField) {
         logger.info("find and click to days");
-        focusWebElement(driver.findElement(daysLocator)).click();
-        logger.info("find and click on the day with name: " + dayField);
-        //корневой элемент выпадайти
-        WebElement rootWebElement = driver.findElement(datePickerListLocator);
-        //поиск элемента с текстом
-        WebElement findEl = rootWebElement.findElement(By.xpath("./descendant::span[contains(text(),'" + dayField + "')]"));
-        focusWebElement(findEl.findElement(By.xpath("./../.."))).click(); // ./../.. - ищет ближайшего кликабельного предка
-        this.dayField = dayField; // для дальнейших проверок
-        return this;
+        try {
+            focusWebElement(daysLocator).click();
+            logger.info("find and click on the day with name: " + dayField);
+            //поиск элемента с текстом
+            WebElement findEl = datePickerListLocator.findElement(By.xpath("./descendant::span[contains(text(),'" + dayField + "')]"));
+            focusWebElement(findEl.findElement(By.xpath("./../.."))).click(); // ./../.. - ищет ближайшего кликабельного предка
+            this.dayField = dayField; // для дальнейших проверок
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
     }
 
     // выставляет станцию метро + id станции
-    public AfishaPage setMetroStation(String metroName, int stationId) {
-        // ждать пока браузер уберёт предыдущий список станций, если такой есть (когда вводится несклько станций, браузер тормозит)
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(metroStationPickerListLocator));
-        logger.info("find metro locator input and type: " + metroName);
-        driver.findElement(metroLocator).sendKeys(metroName);
-        logger.info("find metro list and click on station with id: " + stationId);
-        //корневой элемент выпадайти
-        WebElement rootWebElement = wait.until(ExpectedConditions.visibilityOfElementLocated(metroStationPickerListLocator));
-        //поиск элемента с data_id = stationId
-        focusWebElement(rootWebElement.findElement(By.xpath("./descendant::div[@data-id='" + stationId + "']"))).click();
-        stationsMap.put(stationId, metroName); // для дальнейших проверок
-        return this;
+    public void setMetroStation(String metroName, int stationId) {
+        try {
+            // ждать пока браузер уберёт предыдущий список станций, если такой есть (когда вводится несклько станций, браузер тормозит)
+            wait.until(ExpectedConditions.invisibilityOf(metroStationPickerListLocator));
+            logger.info("find metro locator input and type: " + metroName);
+            metroLocator.sendKeys(metroName);
+            logger.info("find metro list and click on station with id: " + stationId);
+            //корневой элемент выпадайти
+            wait.until(ExpectedConditions.visibilityOf(metroStationPickerListLocator));
+            //поиск элемента с data_id = stationId
+            focusWebElement(metroStationPickerListLocator.findElement(By.xpath("./descendant::div[@data-id='" + stationId + "']"))).click();
+            stationsMap.put(stationId, metroName); // для дальнейших проверок
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     // выставляет жанр
-    public AfishaPage setGenre(String genreField) {
+    public void setGenre(String genreField) {
         logger.info("find genres and click");
-        focusWebElement(driver.findElement(genresLocator)).click();
-        logger.info("find and click on the genre with name: " + genreField);
-        //корневой элемент выпадайти
-        WebElement rootWebElement = driver.findElement(genresPickerListLocator);
-        //поиск элемента с текстом среди потомков
-        WebElement findEl = rootWebElement.findElement(By.xpath("./descendant::span[text()='" + genreField + "']")); //descendant:: — Возвращает всех множество потомков
-        focusWebElement(findEl.findElement(By.xpath("./../.."))).click(); // ./../.. - ищет ближайшего кликабельного предка
-        genreList.add(genreField); // для дальнейших проверок
-        return this;
+        try {
+            focusWebElement(genresLocator).click();
+            logger.info("find and click on the genre with name: " + genreField);
+            //поиск элемента с текстом среди потомков
+            WebElement findEl = genresPickerListLocator.findElement(By.xpath("./descendant::span[text()='" + genreField + "']")); //descendant:: — Возвращает всех множество потомков
+            focusWebElement(findEl.findElement(By.xpath("./../.."))).click(); // ./../.. - ищет ближайшего кликабельного предка
+            genreList.add(genreField); // для дальнейших проверок
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     // кликает "2d сеанс"
-    public AfishaPage clickCinema2d() {
+    public void clickCinema2d() {
         logger.info("find cinema2d and click");
-        focusWebElement(driver.findElement(cinema2dLocator)).click();
-        cinema2d = true; // для дальнейших проверок
-        return this;
+        try {
+            focusWebElement(cinema2dLocator).click();
+            cinema2d = true; // для дальнейших проверок
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     // кликает "подобрать"
-    public AfishaPage clickPickUpFilms() {
+    public void clickPickUpFilms() {
         logger.info("find pick up button and click");
-        focusWebElement(driver.findElement(submitLocator)).click();
-        return this;
+        try {
+            focusWebElement(submitLocator).click();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
 }
