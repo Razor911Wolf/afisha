@@ -6,13 +6,19 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
 
+/**
+ * Класс тестирования "афиша мэйл"
+ */
 public class AfishaTesting extends WebDiverSettings {
 
-    private static Logger logger = LogManager.getLogger(AfishaTesting.class);
+    private final static Logger logger = LogManager.getLogger(AfishaTesting.class);
 
     private AfishaPage afishaPage;
     private MoviePosterMoscowPage moviePosterMoscowPage;
 
+    /**
+     * test_01
+     */
     @Test
     public void test_01() {
         logger.info("start: test_01");
@@ -72,6 +78,9 @@ public class AfishaTesting extends WebDiverSettings {
         logger.info("end: test_01");
     }
 
+    /**
+     * test_02
+     */
     @Ignore
     @Test
     public void test_02() {

@@ -3,10 +3,15 @@ import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-// Класс с настройками web driver
+/**
+ * Класс с настройками web driver
+ */
 public class WebDiverSettings {
     protected WebDriver driver;
 
+    /**
+     * Инициализация
+     */
     @Before
     public void setUp() {
         driver = new ChromeDriver();
@@ -16,9 +21,12 @@ public class WebDiverSettings {
         //driver.manage().window().setSize(new Dimension(800, 600));
     }
 
+    /**
+     * Закрытие браузера
+     */
     @After
     public void closed() {
-        driver.close();
+        driver.quit();
     }
 
 }

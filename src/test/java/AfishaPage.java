@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-// Класс для проверки Кино Mail.ru
+/**
+ * Класс для проверки Кино Mail.ru
+ */
 public class AfishaPage extends BasePage {
 
     private final static Logger logger = LogManager.getLogger(AfishaPage.class.getName());
@@ -20,34 +22,63 @@ public class AfishaPage extends BasePage {
     private final ArrayList<String> genreList = new ArrayList(); // для сверки выбранного жанра с тем что в поле
     private boolean cinema2d = false;
 
+    /**
+     * Получение уыставленной даты
+     *
+     * @return dayField - уыставленная дата
+     */
     public String getDay() {
         return dayField;
     }
 
+    /**
+     * Получение установленной станции метро
+     *
+     * @return stationsMap - установленные станции метро
+     */
     public Map getStationMap() {
         return stationsMap;
     }
 
+    /**
+     * Получение уставленного жанра
+     *
+     * @return genreList - уставленные жанры
+     */
     public ArrayList getGenreList() {
         return genreList;
     }
 
+    /**
+     * Получение состояния чекбокса "Только сеансы в 2D"
+     *
+     * @return genreList - true/false - состояние чекбокса
+     */
     public boolean getCinema2dStatus() {
         return cinema2d;
     }
 
+    /**
+     * Конструктор
+     *
+     * @param driver - webdriver
+     */
     public AfishaPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 3, 100);
     }
 
-    // открывает страницу
+    /**
+     * Открывает страницу afisha.mail.ru
+     */
     public void openPage() {
         logger.info("open page: https://afisha.mail.ru/");
         driver.get("https://afisha.mail.ru/");
     }
 
-    // кликает "в кино"
+    /**
+     * Кликает кнопку "в кино"
+     */
     public void clickToTheCinema() {
         logger.info("find and click to the cinema");
         try {
@@ -57,6 +88,11 @@ public class AfishaPage extends BasePage {
         }
     }
 
+    /**
+     * Установка для
+     *
+     * @param dayField - день, который есть в выпадающем списке (Сегодня, Завтра, 03.10.2020 и т.д.)
+     */
     // выставляет день
     public void setDay(String dayField) {
         logger.info("find and click to days");
@@ -73,6 +109,12 @@ public class AfishaPage extends BasePage {
 
     }
 
+    /**
+     * Установка станции метро
+     *
+     * @param metroName - название станции метро строкой
+     * @param stationId - id станции метро цифрами
+     */
     // выставляет станцию метро + id станции
     public void setMetroStation(String metroName, int stationId) {
         try {
@@ -91,7 +133,11 @@ public class AfishaPage extends BasePage {
         }
     }
 
-    // выставляет жанр
+    /**
+     * Установка жанра
+     *
+     * @param genreField - название жанра
+     */
     public void setGenre(String genreField) {
         logger.info("find genres and click");
         try {
@@ -106,7 +152,9 @@ public class AfishaPage extends BasePage {
         }
     }
 
-    // кликает "2d сеанс"
+    /**
+     * Кликает кнопку "Только сеансы в 2D"
+     */
     public void clickCinema2d() {
         logger.info("find cinema2d and click");
         try {
@@ -117,7 +165,9 @@ public class AfishaPage extends BasePage {
         }
     }
 
-    // кликает "подобрать"
+    /**
+     * Кликает кнопку "Подобрать"
+     */
     public void clickPickUpFilms() {
         logger.info("find pick up button and click");
         try {

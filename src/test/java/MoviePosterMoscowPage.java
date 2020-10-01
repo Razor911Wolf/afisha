@@ -9,21 +9,30 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-// Класс для проверки старницы Киноафиша Москвы
+/**
+ * Класс для проверки старницы Киноафиша Москвы
+ */
 public class MoviePosterMoscowPage extends BasePage {
 
-    private WebDriver driver;
     private final static Logger logger = LogManager.getLogger(MoviePosterMoscowPage.class.getName());
 
+    /**
+     * Конструктор
+     *
+     * @param driver - webdriver
+     */
     public MoviePosterMoscowPage(WebDriver driver) {
-        this.wait = new WebDriverWait(driver, 3, 100);
+        this.wait = new WebDriverWait(driver, 5, 100);
         this.driver = driver;
     }
 
-    // проверка дня
-    /*
-    Если установленый день "Сегодня" или "Завтра", то сверяем эти дни с тем что в форме
-    иначе сверяем установленные даты типа: 03.10.2020 и 3 октября 2020
+    /**
+     * Проверка установленного для
+     *
+     * @param dayField - установленные день
+     * @return - true/false - проверка прошла или нет
+     * Если установленый день "Сегодня" или "Завтра", то сверяем эти дни с тем что в форме
+     * иначе сверяем установленные даты типа: 03.10.2020 и 3 октября 2020
      */
     private boolean checkDayField(String dayField) {
         logger.info("find days and check selected day with: " + dayField);
@@ -55,20 +64,23 @@ public class MoviePosterMoscowPage extends BasePage {
         }
     }
 
-    // проверка станций метро
-    /*
-    1. Сверить количество станций в форме и сколько было реально выбрано. Если !=, то присвоить checkPassed = false. Проверять дальше все станции, которые есть.
-    2. Проверить каждую станцию. Если найдено несовпадение, то присвоить checkPassed = false и всё равно проверить остальные станции и залогировать какая именно станция не прошла проверку.
-    3. Вернуть значение checkPassed
+    /**
+     * Проверка станций метро
+     *
+     * @param stationsMap - список установленных станций метро
+     * @return - true/false - проверка прошла или нет
      */
     private boolean checkMetroStationField(Map<Integer, String> stationsMap) {
         logger.info("find metro station and check selected station");
         try {
-            boolean checkPassed = true;
             List<WebElement> listWebEl = metroStationSelectedLocator.findElements(By.xpath("./div[@class='tag tag_close js-suggest__entered-item margin_left_10']"));
+            if (stationsMap.size() == 0) {
+                logger.error("No metro stations selected");
+                return false;
+            }
             if (stationsMap.size() != listWebEl.size()) {
                 logger.error("number of selected metro stations is not equal");
-                checkPassed = false;
+                return false;
             }
             for (Map.Entry<Integer, String> entry : stationsMap.entrySet()) {
                 logger.info("check station id: " + entry.getKey() + " name: " + entry.getValue());
@@ -78,25 +90,33 @@ public class MoviePosterMoscowPage extends BasePage {
                     logger.info("stations are equal");
                 } catch (Exception e) {
                     logger.error("selected metro stations is not equals\nstation id \"" + entry.getKey() + "\" with name \"" + entry.getValue() + "\" not found");
-                    checkPassed = false;
+                    return false;
                 }
             }
-            return checkPassed;
         } catch (Exception e) {
             logger.error(e.getMessage());
             return false;
         }
+        return true;
     }
 
-    // проверка жанров
+    /**
+     * Проверка жанров
+     *
+     * @param genreList - список установленных жанров
+     * @return - true/false - проверка прошла или нет
+     */
     private boolean checkGenreField(ArrayList<String> genreList) {
         logger.info("find genre and check selected genre");
         try {
-            boolean checkPassed = true;
             List<WebElement> listWebEl = genreSelectedLocator.findElements(By.xpath("./div[@class='tag tag_close js-filter_selected_item margin_left_10']"));
             if (genreList.size() != listWebEl.size()) {
                 logger.error("number of selected genres is not equal");
-                checkPassed = false;
+                return false;
+            }
+            if (genreList.size() == 0) {
+                logger.error("genres not selected");
+                return false;
             }
             for (String valueGenre : genreList) {
                 logger.info("check genre: " + valueGenre);
@@ -105,17 +125,22 @@ public class MoviePosterMoscowPage extends BasePage {
                     logger.info("genres are equal");
                 } catch (Exception e) {
                     logger.error("selected genre is not equal\ngenre \"" + valueGenre + "\" not found");
-                    checkPassed = false;
+                    return false;
                 }
             }
-            return checkPassed;
         } catch (Exception e) {
             logger.error(e.getMessage());
             return false;
         }
+        return true;
     }
 
-    // проверка чекбокса 2d сеанс
+    /**
+     * Проверка чекбокса "Только сеансы в 2D"
+     *
+     * @param cinema2d - состояние установленного чекбокса "Только сеансы в 2D"
+     * @return - true/false - проверка прошла или нет
+     */
     private boolean CheckCinema2d(boolean cinema2d) {
         logger.info("find cinema2d and check");
         try {
@@ -132,7 +157,12 @@ public class MoviePosterMoscowPage extends BasePage {
         }
     }
 
-    // отчёт по всем выбранным полям
+    /**
+     * Отчет по всем проверка
+     *
+     * @param afishaPage - страница с установленным днём, станцией метро, жанром и чекбоксом 2d сеансы
+     * @return - true/false - общая проверка прошла или нет
+     */
     public boolean getReport(AfishaPage afishaPage) {
         logger.info("get report: MoviePosterMoscowPage");
         if (checkDayField(afishaPage.getDay()) && checkMetroStationField(afishaPage.getStationMap()) && checkGenreField(afishaPage.getGenreList()) && CheckCinema2d(afishaPage.getCinema2dStatus())) {
