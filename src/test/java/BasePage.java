@@ -3,7 +3,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,9 +34,12 @@ public class BasePage {
     // Выбор станции метро
     @FindBy(xpath = "//div[@class='input-group__item']//input[@class='input__field js-suggest__input']")
     protected static WebElement metroLocator;
-    // Список старций в выпадайке (кольцева и обычная)
+    // Список станций в выпадайке (кольцева и обычная)
     @FindBy(xpath = "//div[@class='input-group input-group_fixed']//div[@class='suggest__inner']")
     protected static WebElement metroStationPickerListLocator;
+    // Локатор формы, из которой появляется выпадайка станций
+    @FindBy(xpath = "//div[@class='input-group input-group_fixed']//div[@class='input js-suggest__input-wrap']")
+    protected static WebElement metroStationRootPickerListLocator;
     // Выбор жанра
     @FindBy(xpath = "//form[@class='js-module']//input[@data-placeholder='Все жанры']")
     protected static WebElement genresLocator;
@@ -76,10 +78,10 @@ public class BasePage {
     protected WebElement focusWebElement(WebElement webElement) {
         hideWebElement(upButtonLocator); // Прячет кнопку "наверех" чтоб не мешалась
         waitInvisibilityOfAds(); // ждёт пока уберётся реклама, если она есть
-
-        Actions actions = new Actions(driver);
-        actions.moveToElement(webElement);
-        actions.perform();
+        //Actions action = new Actions(driver);
+        //action.moveToElement(webElement).build().perform(); // не работает в ff
+        JavascriptExecutor js = ((JavascriptExecutor) driver);
+        js.executeScript("arguments[0].scrollIntoView(false);",webElement);
         return wait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 

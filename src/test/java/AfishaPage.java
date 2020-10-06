@@ -65,7 +65,7 @@ public class AfishaPage extends BasePage {
      */
     public AfishaPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 3, 100);
+        this.wait = new WebDriverWait(driver, 5, 100);
     }
 
     /**
@@ -121,12 +121,13 @@ public class AfishaPage extends BasePage {
             // ждать пока браузер уберёт предыдущий список станций, если такой есть (когда вводится несклько станций, браузер тормозит)
             wait.until(ExpectedConditions.invisibilityOf(metroStationPickerListLocator));
             logger.info("find metro locator input and type: " + metroName);
-            metroLocator.sendKeys(metroName);
+            focusWebElement(metroLocator).sendKeys(metroName);
             logger.info("find metro list and click on station with id: " + stationId);
             //корневой элемент выпадайти
             wait.until(ExpectedConditions.visibilityOf(metroStationPickerListLocator));
             //поиск элемента с data_id = stationId
-            focusWebElement(metroStationPickerListLocator.findElement(By.xpath("./descendant::div[@data-id='" + stationId + "']"))).click();
+            WebElement webElement = metroStationRootPickerListLocator.findElement(By.xpath("./descendant::div[@data-id='" + stationId + "']"));
+            focusWebElement(webElement).click();
             stationsMap.put(stationId, metroName); // для дальнейших проверок
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -144,7 +145,7 @@ public class AfishaPage extends BasePage {
             focusWebElement(genresLocator).click();
             logger.info("find and click on the genre with name: " + genreField);
             //поиск элемента с текстом среди потомков
-            WebElement findEl = genresPickerListLocator.findElement(By.xpath("./descendant::span[text()='" + genreField + "']")); //descendant:: — Возвращает всех множество потомков
+            WebElement findEl = genresPickerListLocator.findElement(By.xpath("./descendant::span[text()='" + genreField + "']")); //descendant:: — Возвращает всех потомков
             focusWebElement(findEl.findElement(By.xpath("./../.."))).click(); // ./../.. - ищет ближайшего кликабельного предка
             genreList.add(genreField); // для дальнейших проверок
         } catch (Exception e) {
