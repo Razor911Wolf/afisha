@@ -123,8 +123,8 @@ public class AfishaPage extends BasePage {
             logger.info("find metro locator input and type: " + metroName);
             focusWebElement(metroLocator).sendKeys(metroName);
             logger.info("find metro list and click on station with id: " + stationId);
-            //корневой элемент выпадайти
-            wait.until(ExpectedConditions.visibilityOf(metroStationPickerListLocator));
+            //ждём пока появится выпадайка
+            wait.until(ExpectedConditions.visibilityOf(metroStationRootPickerListLocator.findElement(By.xpath("./descendant::div[@class='suggest js-suggest__list']"))));
             //поиск элемента с data_id = stationId
             WebElement webElement = metroStationRootPickerListLocator.findElement(By.xpath("./descendant::div[@data-id='" + stationId + "']"));
             focusWebElement(webElement).click();

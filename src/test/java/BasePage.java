@@ -1,6 +1,7 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -81,7 +82,7 @@ public class BasePage {
         //Actions action = new Actions(driver);
         //action.moveToElement(webElement).build().perform(); // не работает в ff
         JavascriptExecutor js = ((JavascriptExecutor) driver);
-        js.executeScript("arguments[0].scrollIntoView(false);",webElement);
+        js.executeScript("arguments[0].scrollIntoView(false);", webElement);
         return wait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
