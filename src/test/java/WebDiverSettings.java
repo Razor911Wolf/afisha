@@ -17,8 +17,12 @@ public class WebDiverSettings {
      */
     @Before
     public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "./resources/drivers/chromedriver.exe");
         //driver = new ChromeDriver();
+
+        System.setProperty("webdriver.gecko.driver", "./resources/drivers/geckodriver.exe");
         driver = new FirefoxDriver();
+
         driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
         //driver.manage().window().maximize();
     }
