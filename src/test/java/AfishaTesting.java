@@ -90,7 +90,7 @@ public class AfishaTesting extends WebDiverSettings {
         afishaPage.checkPageTitle("Кино Mail.ru — фильмы, сериалы и телешоу из самых популярных онлайн-кинотеатров");
         afishaPage.clickToTheCinema();
         afishaPage.clickCinema2d();
-        afishaPage.setDay("03.10.2020");
+        afishaPage.setDay("16.10.2020");
         afishaPage.setMetroStation("Третьяковская", 287); //третьяковская id=287
         afishaPage.setMetroStation("Курская", 68); //курская кольцевая id=68
         afishaPage.setMetroStation("Первомайская", 107); //первомайская id=107

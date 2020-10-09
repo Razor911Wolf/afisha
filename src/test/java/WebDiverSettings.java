@@ -19,7 +19,7 @@ public class WebDiverSettings {
     public void setUp() {
         //driver = new ChromeDriver();
         driver = new FirefoxDriver();
-        //driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
         //driver.manage().window().maximize();
     }
 
